@@ -1,11 +1,12 @@
 <template>
   <v-app>
     <v-main>
-      <HelloWorld />
+      <home-page />
     </v-main>
   </v-app>
 </template>
 
 <script setup lang="ts">
+import HomePage from './pages/HomePage.vue'
   
 </script>
