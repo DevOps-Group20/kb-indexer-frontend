@@ -1,21 +1,19 @@
 <template>
-  <v-select
-    :label="props.label"
-    :items="props.items"
-    v-model="model"
-    variant="underlined"
-  />
+    <v-select v-model="model" :label="props.label" :items="props.items" variant="solo" />
 </template>
 
 <script setup lang="ts">
+import { ModelRef } from 'vue';
+
 
 interface Props {
-  label: string,
-  items: string[]
+    label: string,
+    items?: string[],
+
 }
 
 const props = defineProps<Props>()
-const model = defineModel();
+const model: ModelRef<undefined, string> = defineModel();
 
 
 

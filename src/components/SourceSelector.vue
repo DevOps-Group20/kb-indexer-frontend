@@ -1,38 +1,38 @@
 <template>
-  <div class="source-selector">
-    <dropdown label="Indexer" v-model="currentIndexer" :items="indexerItems"/>
-    <dropdown label="Sources" v-model="currentSource" :items="sourceItems"/>
-  </div>
+    <div class="source-selector">
+        <dropdown class="dropdown" label="Indexer" v-model="model.indexer" :items="indexerItems" />
+        <dropdown class="dropdown" label="Sources" v-model="model.source" :items="sourceItems" />
+    </div>
 </template>
 <script setup lang="ts">
 import Indexer from '@/interfaces/Indexer'
 import Dropdown from "@/components/Dropdown.vue";
-import {computed, ComputedRef, Ref, ref, watch} from "vue";
+import { computed, ComputedRef, Ref, ref, watch } from "vue";
 
 interface Props {
-  indexers: Indexer[]
+    indexers: Indexer[]
 }
 
 const props = defineProps<Props>();
+const model = defineModel({ default: { indexer: undefined, source: undefined } });
 
-const currentIndexer: Ref = ref(undefined);
 const indexerItems: ComputedRef = computed(() => props.indexers.map(indexer => indexer.name));
-
-const currentSource: Ref = ref(undefined);
 const sourceItems: ComputedRef = computed(() => {
-  if (currentIndexer.value) {
-    return props.indexers.find(indexer => indexer.name === currentIndexer.value).sources
-  }
+    if (model.value.indexer) {
+        return props.indexers.find(indexer => indexer.name === model.value.indexer)?.sources
+    }
 })
 
-watch(currentIndexer, () => currentSource.value = undefined)
+watch(model, () => model.value.source = undefined)
 
 </script>
 <style scoped>
-.source-selector{
-  display: flex;
-  gap: 30px;
+.source-selector {
+    display: flex;
+    gap: 30px;
 }
 
+.dropdown {
+    max-width: 50%;
+}
 </style>
-
