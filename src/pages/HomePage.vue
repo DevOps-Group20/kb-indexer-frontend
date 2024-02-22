@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import Indexer from '../interfaces/Indexer'
+import Indexer from '@/interfaces/Indexer'
 import SourceSelector from "@/components/SourceSelector.vue";
 import Tile from "@/components/Tile.vue";
 import { reactive } from 'vue';

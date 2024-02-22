@@ -20,7 +20,9 @@ const model = defineModel({ default: { indexer: undefined, source: undefined } }
 const indexerItems: ComputedRef = computed(() => props.indexers.map(indexer => indexer.name));
 const sourceItems: ComputedRef = computed(() => {
     if (model.value.indexer) {
-        return props.indexers.find(indexer => indexer.name === model.value.indexer)?.sources
+        return props.indexers.find(
+            indexer => indexer.name === model.value.indexer
+        )?.sources
     }
 })
 

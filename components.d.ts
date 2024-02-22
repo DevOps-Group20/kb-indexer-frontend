@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Dropdown: typeof import('./src/components/Dropdown.vue')['default']
+    PlayStopButton: typeof import('./src/components/PlayStopButton.vue')['default']
     SourceSelector: typeof import('./src/components/SourceSelector.vue')['default']
     Tile: typeof import('./src/components/Tile.vue')['default']
   }
