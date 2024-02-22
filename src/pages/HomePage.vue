@@ -21,6 +21,7 @@ import { reactive } from 'vue';
 
 const currentValue = reactive({ indexer: undefined, source: undefined });
 
+// This data needs to be queried from the backend when the app starts
 const indexers: Indexer[] = [
     {
         name: 'indexer1',
