@@ -1,6 +1,7 @@
 <template>
     <div class="source-selector">
-        <dropdown class="dropdown" label="Indexer" v-model="model.indexer" :items="indexerItems" />
+        <dropdown @change="onIndexerChange" class="dropdown" label="Indexer" v-model="model.indexer"
+            :items="indexerItems" />
         <dropdown class="dropdown" label="Sources" v-model="model.source" :items="sourceItems" />
     </div>
 </template>
@@ -23,7 +24,9 @@ const sourceItems: ComputedRef = computed(() => {
     }
 })
 
-watch(model, () => model.value.source = undefined)
+function onIndexerChange() {
+    model.value.source = undefined;
+}
 
 </script>
 <style scoped>
