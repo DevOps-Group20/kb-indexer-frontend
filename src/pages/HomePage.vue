@@ -28,7 +28,7 @@
                 @toggle="console.log('toggle5')"
             />
             <v-spacer></v-spacer>
-            <v-btn color="primary" @click="logout">Logout</v-btn>
+            <v-btn color="deep-purple accent-4" class="mt-4" @click="logout">Logout</v-btn>
         </v-responsive>
     </v-container>
 </template>
