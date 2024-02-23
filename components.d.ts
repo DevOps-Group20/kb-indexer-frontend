@@ -10,6 +10,7 @@ declare module 'vue' {
     Dropdown: typeof import('./src/components/Dropdown.vue')['default']
     PlayStopButton: typeof import('./src/components/PlayStopButton.vue')['default']
     SourceSelector: typeof import('./src/components/SourceSelector.vue')['default']
+    StatusIndicator: typeof import('./src/components/StatusIndicator.vue')['default']
     Tile: typeof import('./src/components/Tile.vue')['default']
   }
 }

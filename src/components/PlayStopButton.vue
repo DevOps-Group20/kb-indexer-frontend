@@ -1,18 +1,16 @@
 <template>
-    <v-btn :icon="iconText" size="32px" @click="toggle"></v-btn>
+    <v-btn :icon="iconText" size="32px" @click="emit('toggle')"></v-btn>
 </template>
 
 <script setup>
-import {computed, ref} from 'vue';
+import {computed} from 'vue';
 
 const props = defineProps({
     isStop: {type: Boolean, default: false}
 })
 
-const isStop = ref(props.isStop)
+const emit = defineEmits(['toggle']);
 
-const toggle = () => isStop.value = !isStop.value
-
-const iconText = computed(() => isStop.value ? 'mdi-stop' : 'mdi-play')
+const iconText = computed(() => props.isStop ? 'mdi-stop' : 'mdi-play');
 
 </script>
