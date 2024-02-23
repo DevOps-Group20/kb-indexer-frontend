@@ -27,6 +27,8 @@
                 status="Completed"
                 @toggle="console.log('toggle5')"
             />
+            <v-spacer></v-spacer>
+            <v-btn color="deep-purple accent-4" class="mt-4" @click="logout">Logout</v-btn>
         </v-responsive>
     </v-container>
 </template>
@@ -36,7 +38,8 @@ import Indexer from '@/interfaces/Indexer'
 import SourceSelector from "@/components/SourceSelector.vue";
 import Tile from "@/components/Tile.vue";
 import { reactive } from 'vue';
-
+import { getAuth, signOut } from "firebase/auth";
+import { router } from '@/router';
 
 const currentValue = reactive({ indexer: undefined, source: undefined });
 
@@ -58,7 +61,15 @@ const indexers: Indexer[] = [
         name: 'indexer4',
         sources: ['4 - source1', '4 - source2', '4 - source3']
     },
-
 ]
 
+const logout = async () => {
+  const auth = getAuth();
+  try {
+    await signOut(auth);
+    await router.push('/login')
+  } catch (error) {
+    console.error(error);
+  }
+};
 </script>
