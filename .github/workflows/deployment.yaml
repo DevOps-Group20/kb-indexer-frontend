@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kb-indexer-frontend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kb-indexer-frontend
+  template:
+    metadata:
+      labels:
+        app: kb-indexer-frontend
+    spec:
+      containers:
+        - name: kb-indexer-frontend-container
+          image: kb-indexer-frontend-app:latest
+          ports:
+            - containerPort: 3000
+      
