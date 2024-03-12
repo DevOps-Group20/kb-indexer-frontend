@@ -1,8 +1,9 @@
 <template>
-  <div>
+  <fullscreen-wrapper>
     <router-view/>
-  </div>
+  </fullscreen-wrapper>
 
 </template>
 <script setup lang="ts">
+import FullscreenWrapper from "@/components/fullscreenWrapper.vue";
 </script>
