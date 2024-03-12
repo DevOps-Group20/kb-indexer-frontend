@@ -1,9 +1,5 @@
 <template>
-  <div class="fullscreen">
-    <b-button size="is-small"
-              icon-left="github-circle">
-      Add
-    </b-button>
+  <div class="fullscreen bg-amber-50">
     <slot/>
   </div>
 </template>
