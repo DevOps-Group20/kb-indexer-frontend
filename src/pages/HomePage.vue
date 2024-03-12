@@ -27,7 +27,7 @@
         @toggle="console.log('toggle5')"
     />
     <v-spacer></v-spacer>
-    <button @click="logout">Logout</button>
+    <VButton @click="logout">Logout</VButton>
   </div>
 </template>
 
@@ -38,6 +38,7 @@ import Tile from "@/components/Tile.vue";
 import { reactive } from 'vue';
 import { getAuth, signOut } from "firebase/auth";
 import { router } from '@/router';
+import VButton from "@/components/VButton.vue";
 
 const currentValue = reactive({ indexer: undefined, source: undefined });
 

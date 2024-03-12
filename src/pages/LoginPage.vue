@@ -9,7 +9,7 @@
             </div>
           </div>
           <div class="spacer"></div>
-          <form class="mx-4" @submit.prevent="login">
+          <div>
             <input
               type="text"
               placeholder="Username"
@@ -22,8 +22,8 @@
               v-model="password"
               required
             >
-            <button class="btn deep-purple accent-4 mt-4" type="submit">Login</button>
-          </form>
+          </div>
+          <VButton class="btn deep-purple accent-4 mt-4" @click="login">Login</VButton>
         </div>
       </div>
     </div>
@@ -31,9 +31,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { router } from '@/router';
+import {ref} from 'vue';
+import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
+import {router} from '@/router';
+import VButton from "@/components/VButton.vue";
 
 const username = ref('');
 const password = ref('');
