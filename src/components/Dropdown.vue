@@ -1,22 +1,28 @@
 <template>
-    <v-select @update:model-value="emit('change')" v-model="model" :label="props.label" :items="props.items"
-        variant="solo" />
+  <div>
+    {{label}}
+    <select
+      @update:model-value="emit('change')" v-model="model" :items="props.items">
+      <option v-for="item in items" :key="item" :value="item">
+        {{item}}
+      </option>
+    </select>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { ModelRef } from 'vue';
+import {ModelRef} from 'vue';
 
 
 interface Props {
-    label: string,
-    items?: string[],
+  label: string,
+  items?: string[],
 
 }
 
 const props = defineProps<Props>()
-const model: ModelRef<undefined, string> = defineModel();
+const model = defineModel();
 const emit = defineEmits(['change']);
-
 
 
 </script>

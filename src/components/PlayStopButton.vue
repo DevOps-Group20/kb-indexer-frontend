@@ -1,16 +1,13 @@
 <template>
-    <v-btn :icon="iconText" size="32px" @click="emit('toggle')"></v-btn>
+    <button @click="emit('toggle')">{{isStop}}</button>
 </template>
 
 <script setup>
-import {computed} from 'vue';
 
-const props = defineProps({
+defineProps({
     isStop: {type: Boolean, default: false}
 })
 
 const emit = defineEmits(['toggle']);
-
-const iconText = computed(() => props.isStop ? 'mdi-stop' : 'mdi-play');
 
 </script>

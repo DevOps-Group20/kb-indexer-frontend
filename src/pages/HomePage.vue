@@ -1,36 +1,34 @@
 <template>
-    <v-container class="fill-height">
-        <v-responsive class="align-center text-center fill-height">
-            <source-selector :indexers="indexers" v-model=currentValue />
-            <tile
-                title="TILE 1"
-                status="Ready"
-                @toggle="console.log('toggle1')"
-            />
-            <tile
-                title="TILE 2"
-                status="Running"
-                @toggle="console.log('toggle2')"
-            />
-            <tile
-                title="TILE 3"
-                status="Completed"
-                @toggle="console.log('toggle3')"
-            />
-            <tile
-                title="TILE 4"
-                status="Failed"
-                @toggle="console.log('toggle4')"
-            />
-            <tile
-                title="TILE 5"
-                status="Completed"
-                @toggle="console.log('toggle5')"
-            />
-            <v-spacer></v-spacer>
-            <v-btn color="deep-purple accent-4" class="mt-4" @click="logout">Logout</v-btn>
-        </v-responsive>
-    </v-container>
+  <div>
+    <source-selector :indexers="indexers" v-model=currentValue />
+    <tile
+        title="TILE 1"
+        status="Ready"
+        @toggle="console.log('toggle1')"
+    />
+    <tile
+        title="TILE 2"
+        status="Running"
+        @toggle="console.log('toggle2')"
+    />
+    <tile
+        title="TILE 3"
+        status="Completed"
+        @toggle="console.log('toggle3')"
+    />
+    <tile
+        title="TILE 4"
+        status="Failed"
+        @toggle="console.log('toggle4')"
+    />
+    <tile
+        title="TILE 5"
+        status="Completed"
+        @toggle="console.log('toggle5')"
+    />
+    <v-spacer></v-spacer>
+    <button @click="logout">Logout</button>
+  </div>
 </template>
 
 <script setup lang="ts">

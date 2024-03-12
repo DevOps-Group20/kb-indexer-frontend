@@ -1,7 +1,8 @@
 <template>
-  <v-app>
-    <v-main>
-      <router-view />
-    </v-main>
-  </v-app>
+  <div>
+    <router-view/>
+  </div>
+
 </template>
+<script setup lang="ts">
+</script>
