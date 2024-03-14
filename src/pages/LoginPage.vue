@@ -1,10 +1,10 @@
 <template>
-  <div class="container fill-height">
-    <div class="responsive align-center text-center fill-height">
+  <div class="container fill-height d-flex align-center">
+    <div class="responsive text-center">
       <div class="row">
-        <div class="col-12 col-sm-8 offset-sm-2">
+        <div class="col-12 col-sm-8 offset-sm-2 ">
           <div class="toolbar deep-purple accent-4 dark flat">
-            <div class="toolbar-title headline text-uppercase">
+            <div class="toolbar-title headline text-uppercase is-align-content-center">
               <span class="font-weight-bold">Login to Index Database Sources</span>
             </div>
           </div>
@@ -14,19 +14,19 @@
               <b-input type="username" v-model="username"></b-input>
             </b-field>
             <b-field label="Password">
-              <b-input type="password" v-model="password"></b-input>
-            </b-field>
+                <b-input type="password" v-model="password"></b-input>
+              </b-field>
           </div>
-          <ActionButton type="is-primary" :buttonAction="login">Login</ActionButton>        </div>
+          <div class="spacer"></div>
+          <ActionButton type="is-primary" :buttonAction="login">Login</ActionButton>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-
 import ActionButton from "@/components/ActionButton.vue";
-
 import {ref} from 'vue';
 import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
 import {router} from '@/router';

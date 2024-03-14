@@ -3,7 +3,6 @@
 </template>
 
 <script setup>
-
 import VButton from "@/components/VButton.vue";
 
 defineProps({

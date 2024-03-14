@@ -31,12 +31,10 @@
 </template>
 
 <script setup lang="ts">
-
 import Indexer from '@/interfaces/Indexer'
 import SourceSelector from "@/components/SourceSelector.vue";
 import Tile from "@/components/Tile.vue";
 import ActionButton from "@/components/ActionButton.vue";
-
 import { reactive } from 'vue';
 import { getAuth, signOut } from "firebase/auth";
 import { router } from '@/router';
@@ -67,6 +65,7 @@ const logout = async () => {
   const auth = getAuth();
   try {
     await signOut(auth);
+    console.log('signOut successful');
     await router.push('/login')
   } catch (error) {
     console.error(error);
