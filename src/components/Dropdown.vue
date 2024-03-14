@@ -30,5 +30,6 @@ const emit = defineEmits(['change']);
   font-size: 1.2em;
   font-weight: bold;
   color: #333;
+  align-self: center;
 }
 </style>
