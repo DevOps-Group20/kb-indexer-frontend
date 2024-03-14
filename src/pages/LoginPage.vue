@@ -10,31 +10,26 @@
           </div>
           <div class="spacer"></div>
           <div>
-            <input
-              type="text"
-              placeholder="Username"
-              v-model="username"
-              required
-            >
-            <input
-              type="password"
-              placeholder="Password"
-              v-model="password"
-              required
-            >
+            <b-field label="Username">
+              <b-input type="username" v-model="username"></b-input>
+            </b-field>
+            <b-field label="Password">
+              <b-input type="password" v-model="password"></b-input>
+            </b-field>
           </div>
-          <VButton class="btn deep-purple accent-4 mt-4" @click="login">Login</VButton>
-        </div>
+          <ActionButton type="is-primary" :buttonAction="login">Login</ActionButton>        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+
+import ActionButton from "@/components/ActionButton.vue";
+
 import {ref} from 'vue';
 import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
 import {router} from '@/router';
-import VButton from "@/components/VButton.vue";
 
 const username = ref('');
 const password = ref('');
@@ -43,6 +38,7 @@ const login = async () => {
   const auth = getAuth();
   try {
     await signInWithEmailAndPassword(auth, username.value, password.value);
+    console.log('signInWithEmailAndPassword successful');
     await router.push('/')
   } catch (error) {
     console.error(error);

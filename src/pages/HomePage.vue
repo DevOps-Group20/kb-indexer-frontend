@@ -26,19 +26,20 @@
         status="Completed"
         @toggle="console.log('toggle5')"
     />
-    <v-spacer></v-spacer>
-    <VButton @click="logout">Logout</VButton>
+    <ActionButton type="is-primary" :buttonAction="logout">Logout</ActionButton>
   </div>
 </template>
 
 <script setup lang="ts">
+
 import Indexer from '@/interfaces/Indexer'
 import SourceSelector from "@/components/SourceSelector.vue";
 import Tile from "@/components/Tile.vue";
+import ActionButton from "@/components/ActionButton.vue";
+
 import { reactive } from 'vue';
 import { getAuth, signOut } from "firebase/auth";
 import { router } from '@/router';
-import VButton from "@/components/VButton.vue";
 
 const currentValue = reactive({ indexer: undefined, source: undefined });
 
