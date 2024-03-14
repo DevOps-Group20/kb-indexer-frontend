@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="limit-row-width">
     <source-selector :indexers="indexers" v-model=currentValue />
     <tile
         title="TILE 1"
@@ -26,7 +26,9 @@
         status="Completed"
         @toggle="console.log('toggle5')"
     />
+    <div class="is-flex is-justify-content-center">
     <ActionButton type="is-primary" :buttonAction="logout">Logout</ActionButton>
+    </div>
   </div>
 </template>
 
@@ -72,3 +74,11 @@ const logout = async () => {
   }
 };
 </script>
+
+<style scoped>
+.limit-row-width {
+  width: 60%;
+  max-width: 800px;
+  margin: auto;
+}
+</style>

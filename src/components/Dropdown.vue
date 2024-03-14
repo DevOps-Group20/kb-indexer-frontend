@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-container">
+  <div class="is-flex is-justify-content-center">
     <div class="text">
       {{label}}
     </div>
@@ -25,11 +25,6 @@ const emit = defineEmits(['change']);
 </script>
 
 <style scoped>
-.flex-container {
-  display: flex;
-  align-items: center;
-}
-
 .text {
   margin-right: 10px;
   font-size: 1.2em;
