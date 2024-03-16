@@ -119,7 +119,6 @@ const getIndexers = async () => {
   const res = await axios.get('http://localhost:8090/indexers',{
     headers: {
       'Authorization': user ? 'Bearer ' +  await user.getIdToken() : 'Bearer x',
-      'Accept': 'application/json',
       'Content-Type': 'application/json',
     }
   })
