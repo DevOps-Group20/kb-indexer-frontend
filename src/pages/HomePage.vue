@@ -40,6 +40,7 @@ import ActionButton from "@/components/ActionButton.vue";
 import { reactive } from 'vue';
 import { getAuth, signOut } from "firebase/auth";
 import { router } from '@/router';
+import axios from "axios";
 
 const currentValue = reactive({ indexer: undefined, source: undefined });
 
@@ -62,6 +63,21 @@ const indexers: Indexer[] = [
         sources: ['4 - source1', '4 - source2', '4 - source3']
     },
 ]
+
+const getIndexers = async () => {
+  const user = getAuth().currentUser;
+
+  const res = await axios.get('http://localhost:8090/indexers',{
+    headers: {
+      'Authorization': user ? 'Bearer ' +  await user.getIdToken() : 'Bearer x',
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+  })
+  console.log(res);
+}
+
+getIndexers();
 
 const logout = async () => {
   const auth = getAuth();

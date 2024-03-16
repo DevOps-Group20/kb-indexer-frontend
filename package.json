@@ -12,6 +12,7 @@
   "dependencies": {
     "@mdi/font": "7.0.96",
     "@ntohq/buefy-next": "^0.1.2",
+    "axios": "^1.6.8",
     "buefy": "https://github.com/buefy/buefy#buefy-next",
     "firebase": "^10.8.0",
     "roboto-fontface": "*",
