@@ -1,5 +1,5 @@
 <template>
-    <VButton @click="emit('toggle')">{{isStop}}</VButton>
+    <b-button @click="emit('toggle')">{{isStop}}</b-button>
 </template>
 
 <script setup>

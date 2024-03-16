@@ -30,12 +30,14 @@ import {router} from '@/router';
 const username = ref('');
 const password = ref('');
 
+let bearerToken;
+
 const login = async () => {
   const auth = getAuth();
   try {
-    await signInWithEmailAndPassword(auth, username.value, password.value);
+    await signInWithEmailAndPassword(auth, username.value, password.value)
     console.log('signInWithEmailAndPassword successful');
-    await router.push('/')
+    await router.push('/');
   } catch (error) {
     console.error(error);
   }
