@@ -44,7 +44,9 @@ import axios from "axios";
 
 const currentValue = reactive({ indexer: undefined, source: undefined });
 
-
+//TODO: update indexers.value with response from backend
+//TODO: ideally format the data the same on the backend as the frontend so we only need to set the
+//TODO: value in the frontend
 const indexers = ref<Indexer[]>([]);
 
 async function getBearerToken(){
@@ -66,29 +68,29 @@ async function getBearerToken(){
 //   console.error(error);
 // });
 
-await getBearerToken().then(token => {
-  const options = {
-    method: 'GET',
-    headers: {
-      'authorization': `Bearer ${token}`,
-    },
-  };
-
-  fetch('http://localhost:8090/indexers', options)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .then(data => {
-      indexers.value = data;
-      console.log(data);
-    })
-    .catch(error => {
-      console.error('There has been a problem with your fetch operation:', error);
-    });
-});
+// await getBearerToken().then(token => {
+//   const options = {
+//     method: 'GET',
+//     headers: {
+//       'authorization': `Bearer ${token}`,
+//     },
+//   };
+//
+//   fetch('http://localhost:8090/indexers', options)
+//     .then(response => {
+//       if (!response.ok) {
+//         throw new Error('Network response was not ok');
+//       }
+//       return response.json();
+//     })
+//     .then(data => {
+//       indexers.value = data;
+//       console.log(data);
+//     })
+//     .catch(error => {
+//       console.error('There has been a problem with your fetch operation:', error);
+//     });
+// });
 
 
 // This data needs to be queried from the backend when the app starts
