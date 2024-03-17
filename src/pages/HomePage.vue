@@ -38,9 +38,10 @@ import SourceSelector from "@/components/SourceSelector.vue";
 import Tile from "@/components/Tile.vue";
 import ActionButton from "@/components/ActionButton.vue";
 import { ref, reactive } from 'vue';
-import { getAuth, signOut } from "firebase/auth";
-import { router } from '@/router';
+import { getAuth } from "firebase/auth";
+import { firebaseLogout as logout } from "@/utils/firebase";
 import axios from "axios";
+import {getBearerTokenHeader} from "@/utils/firebase";
 
 const currentValue = reactive({ indexer: undefined, source: undefined });
 
@@ -49,76 +50,14 @@ const currentValue = reactive({ indexer: undefined, source: undefined });
 //TODO: value in the frontend
 const indexers = ref<Indexer[]>([]);
 
-async function getBearerToken(){
-  const BearerToken = await getAuth().currentUser?.getIdToken(true)
-  console.log(BearerToken);
-  return BearerToken;
-}
-//
-// axios.get('http://localhost:8090/indexers', {
-//   headers: {
-//     authorization: `Bearer ${await getBearerToken()}`,
-//   }
-// }).then(response => {
-//   if (response.status === 200) {
-//     indexers.value = response.data;
-//     console.log(response.data);
-//   }
-// }).catch(error => {
-//   console.error(error);
-// });
 
-// await getBearerToken().then(token => {
-//   const options = {
-//     method: 'GET',
-//     headers: {
-//       'authorization': `Bearer ${token}`,
-//     },
-//   };
-//
-//   fetch('http://localhost:8090/indexers', options)
-//     .then(response => {
-//       if (!response.ok) {
-//         throw new Error('Network response was not ok');
-//       }
-//       return response.json();
-//     })
-//     .then(data => {
-//       indexers.value = data;
-//       console.log(data);
-//     })
-//     .catch(error => {
-//       console.error('There has been a problem with your fetch operation:', error);
-//     });
-// });
-
-
-// This data needs to be queried from the backend when the app starts
-// const indexers: Indexer[] = [
-//     {
-//         name: 'indexer1',
-//         sources: ['1 - source1', '1 - source2', '1 - source3']
-//     },
-//     {
-//         name: 'indexer2',
-//         sources: ['2 - source1', '2 - source2', '2 - source3']
-//     },
-//     {
-//         name: 'indexer3',
-//         sources: ['3 - source1', '3 - source2', '3 - source3']
-//     },
-//     {
-//         name: 'indexer4',
-//         sources: ['4 - source1', '4 - source2', '4 - source3']
-//     },
-// ]
 
 const getIndexers = async () => {
   const user = getAuth().currentUser;
 
   const res = await axios.get('http://localhost:8090/indexers',{
     headers: {
-      'Authorization': user ? 'Bearer ' +  await user.getIdToken() : 'Bearer x',
+      'Authorization': await getBearerTokenHeader(),
       'Content-Type': 'application/json',
     }
   })
@@ -127,16 +66,7 @@ const getIndexers = async () => {
 
 getIndexers();
 
-const logout = async () => {
-  const auth = getAuth();
-  try {
-    await signOut(auth);
-    console.log('sign out successful');
-    await router.push('/login')
-  } catch (error) {
-    console.error(error);
-  }
-};
+
 </script>
 
 <style scoped>
