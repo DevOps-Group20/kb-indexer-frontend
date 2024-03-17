@@ -25,7 +25,6 @@ interface Props {
 
 const props = defineProps<Props>();
 const emit = defineEmits(['toggle']);
-
 </script>
 
 <style scoped>
@@ -36,11 +35,9 @@ const emit = defineEmits(['toggle']);
   padding: 0 48px;
   height: 70px;
   margin-bottom: 12px;
-  width: 100%;
   background-color: lightgray;
   border-radius: 15px;
 }
-
 .right-controls {
   display: flex;
   align-items: center;

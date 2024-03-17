@@ -29,15 +29,20 @@ const sourceItems: ComputedRef = computed(() => {
 function onIndexerChange() {
     model.value.source = undefined;
 }
-
 </script>
+
 <style scoped>
 .source-selector {
-    display: flex;
-    gap: 30px;
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  border-radius: 10px;
 }
 
 .dropdown {
-    max-width: 50%;
+  max-width: 50%;
+  min-width: 200px;
 }
 </style>

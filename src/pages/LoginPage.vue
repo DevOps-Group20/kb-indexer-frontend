@@ -1,47 +1,43 @@
 <template>
-    <v-container class="fill-height">
-        <v-responsive class="align-center text-center fill-height">
-            <v-row>
-                <v-col cols="12" sm="8" offset-sm="2">
-                    <v-toolbar color="deep-purple accent-4" dark flat>
-                        <v-toolbar-title class="headline text-uppercase">
-                            <span class="font-weight-bold">Login to Index Database Sources</span>
-                        </v-toolbar-title>
-                    </v-toolbar>
-                    <div class="spacer"></div>
-                    <v-form class="mx-4" @submit.prevent="login">
-                        <v-text-field
-                            label="Username"
-                            v-model="username"
-                            required
-                        ></v-text-field>
-                        <v-text-field
-                            label="Password"
-                            type="password"
-                            v-model="password"
-                            required
-                        ></v-text-field>
-                        <v-btn color="deep-purple accent-4" class="mt-4" type="submit">Login</v-btn>
-                    </v-form>
-                </v-col>
-            </v-row>
-        </v-responsive>
-    </v-container>
+    <div class="is-responsive is-center">
+      <div class="limit-row-width">
+            <div class="mt-5 is-align-content-center is-flex is-justify-content-center">
+              <span class="has-text-weight-bold">Login to Index Database Sources</span>
+            </div>
+          <div class="spacer"></div>
+          <div>
+            <b-field label="Username">
+              <b-input type="username" v-model="username"></b-input>
+            </b-field>
+            <b-field label="Password">
+              <b-input type="password" v-model="password"></b-input>
+            </b-field>
+          </div>
+          <div class="spacer"></div>
+          <div class="is-flex is-justify-content-center">
+            <ActionButton type="is-primary" :buttonAction="login">Login</ActionButton>
+          </div>
+      </div>
+    </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { router } from '@/router';
+import ActionButton from "@/components/ActionButton.vue";
+import {ref} from 'vue';
+import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
+import {router} from '@/router';
 
 const username = ref('');
 const password = ref('');
 
+let bearerToken;
+
 const login = async () => {
   const auth = getAuth();
   try {
-    await signInWithEmailAndPassword(auth, username.value, password.value);
-    await router.push('/')
+    await signInWithEmailAndPassword(auth, username.value, password.value)
+    console.log('signInWithEmailAndPassword successful');
+    await router.push('/');
   } catch (error) {
     console.error(error);
   }
@@ -51,5 +47,10 @@ const login = async () => {
 <style scoped>
 .spacer {
   height: 20px;
+}
+
+.limit-row-width {
+  max-width: 400px;
+  margin: auto;
 }
 </style>
