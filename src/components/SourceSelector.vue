@@ -32,7 +32,6 @@ import Dropdown from "@/components/Dropdown.vue";
 import {computed, ComputedRef, ModelRef} from "vue";
 import {toUpperCase} from "@/utils/string";
 import {defaultToast} from "@/utils/toast";
-import {runIndexingPipeline} from "@/utils/endpoints";
 import DropdownItem from "@/interfaces/DropdownItem";
 
 interface Props {
