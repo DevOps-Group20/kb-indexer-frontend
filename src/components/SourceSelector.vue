@@ -29,7 +29,7 @@
 <script setup lang="ts">
 import Indexer from '@/interfaces/Indexer'
 import Dropdown from "@/components/Dropdown.vue";
-import {computed, ComputedRef, ModelRef, watch} from "vue";
+import {computed, ComputedRef, ModelRef} from "vue";
 import {toUpperCase} from "@/utils/string";
 import {defaultToast} from "@/utils/toast";
 import {runIndexingPipeline} from "@/utils/endpoints";
