@@ -15,13 +15,11 @@
 
 <script setup lang="ts">
 
-interface Item {
-  name: string,
-  value: string
-}
+import DropdownItem from "@/interfaces/DropdownItem";
+
 interface Props {
   label: string,
-  items?: Item[],
+  items?: DropdownItem[],
 }
 
 const props = defineProps<Props>()

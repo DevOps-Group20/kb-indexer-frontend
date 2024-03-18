@@ -33,6 +33,7 @@ import {computed, ComputedRef, ModelRef} from "vue";
 import {toUpperCase} from "@/utils/string";
 import {defaultToast} from "@/utils/toast";
 import {runIndexingPipeline} from "@/utils/endpoints";
+import DropdownItem from "@/interfaces/DropdownItem";
 
 interface Props {
   indexers: Indexer[]
@@ -45,13 +46,14 @@ interface Model {
 
 const props = defineProps<Props>();
 const model: ModelRef<Model> = defineModel({default: {indexer: undefined, source: undefined}});
+const emit = defineEmits(['startJob']);
 
-const indexerItems: ComputedRef = computed(() => props.indexers.map(indexer => ({
+const indexerItems: ComputedRef<DropdownItem[]> = computed(() => props.indexers.map(indexer => ({
   name: toUpperCase(indexer.name),
   value: indexer.name
 })));
 
-const sourceItems: ComputedRef = computed(() => {
+const sourceItems: ComputedRef<DropdownItem[] | undefined> = computed(() => {
   if (model.value.indexer) {
     return props.indexers.find(
       indexer => indexer.name === model.value.indexer
@@ -63,14 +65,20 @@ function onIndexerChange() {
   model.value.source = undefined;
 }
 
+const currentJobTitle = computed(() => {
+  const indexerTitle = indexerItems.value.find(indexer => indexer.value === model.value.indexer)?.name ?? '';
+  const sourceTitle = sourceItems.value?.find(source => source.value === model.value.source)?.name ?? '';
+  return `${indexerTitle} ${sourceTitle}`;
+})
+
 
 function startJob(){
   if(!model.value.indexer || !model.value.source) {
     defaultToast('To start a Job an Indexer and a Source must be selected');
     return;
   }
-  console.log(model.value.indexer, model.value.source);
-  runIndexingPipeline("aaa", "bbb");
+  console.log(model.value.source);
+  emit('startJob', currentJobTitle.value, model.value.source);
 }
 </script>
 

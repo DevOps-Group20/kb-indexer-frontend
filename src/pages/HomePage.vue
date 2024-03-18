@@ -1,6 +1,6 @@
 <template>
   <div class="limit-row-width">
-    <source-selector :indexers="indexers" v-model=currentValue />
+    <source-selector :indexers="indexers" v-model=currentValue @start-job="startJob" />
     <tile
         v-for="(job, index) in jobs"
         :title="job.title"
@@ -27,9 +27,9 @@ const currentValue = reactive({ indexer: undefined, source: undefined });
 
 const indexers = ref<Indexer[]>([]);
 const jobs = ref<Job[]>([
-  {title: 'Job1', status: 'Running'},
-  {title: 'Job2', status: 'Failed'},
-  {title: 'Job3', status: 'Completed'}
+  {id: '', title: 'Job1', status: 'Running'},
+  {id: '', title: 'Job2', status: 'Failed'},
+  {id: '', title: 'Job3', status: 'Completed'}
 ]);
 
 getIndexers().then(res => {
@@ -38,6 +38,14 @@ getIndexers().then(res => {
   }
 });
 
+function startJob(title: string, sourceId: string){
+  console.log(title, sourceId);
+  jobs.value.push({
+    id: sourceId,
+    title,
+    status: 'Running'
+  })
+}
 
 function restartJobAtIndex(index: number){
   console.log("Restart Job Called", `index is: ${index}`);
