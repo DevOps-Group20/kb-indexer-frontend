@@ -1,18 +1,20 @@
 <template>
   <div class="source-selector">
-    <dropdown
-      class="dropdown"
-      label="Indexer"
-      v-model="model.indexer"
-      :items="indexerItems"
-      @change="onIndexerChange"
-    />
-    <dropdown
-      class="dropdown"
-      label="Sources"
-      v-model="model.source"
-      :items="sourceItems"
-    />
+    <div class="dropdown-wrapper">
+      <dropdown
+        class="dropdown"
+        label="Indexer"
+        v-model="model.indexer"
+        :items="indexerItems"
+        @change="onIndexerChange"
+      />
+      <dropdown
+        class="dropdown"
+        label="Sources"
+        v-model="model.source"
+        :items="sourceItems"
+      />
+    </div>
     <b-button
       type="is-info"
       icon-right="play"
@@ -58,7 +60,6 @@ const sourceItems: ComputedRef = computed(() => {
 })
 
 function onIndexerChange() {
-  console.log(model.value.indexer);
   model.value.source = undefined;
 }
 
@@ -76,11 +77,15 @@ function startJob(){
 <style scoped>
 .source-selector {
   display: flex;
-  gap: 10px;
-  justify-content: start;
+  justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 35px;
   border-radius: 10px;
+}
+
+.dropdown-wrapper {
+  display: flex;
+  gap: 10px;
 }
 
 </style>
