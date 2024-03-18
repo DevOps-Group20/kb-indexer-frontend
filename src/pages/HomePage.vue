@@ -1,14 +1,14 @@
 <template>
   <div class="limit-row-width">
-    <source-selector :indexers="indexers" v-model=currentValue @start-job="startJob" />
+    <source-selector :indexers="indexers" v-model=currentValue @start-job="startJob"/>
     <tile
-        v-for="(job, index) in jobs"
-        :title="job.title"
-        :status="job.status"
-        @restart="restartJobAtIndex(index)"
+      v-for="(job, index) in jobs"
+      :title="job.title"
+      :status="job.status"
+      @restart="restartJobAtIndex(index)"
     />
     <div class="is-flex is-justify-content-center">
-    <ActionButton type="is-danger is light" :buttonAction="logout">Log out</ActionButton>
+      <b-button type="is-danger is light" @click="logout">Log out</b-button>
     </div>
   </div>
 </template>
@@ -17,13 +17,12 @@
 import Indexer from '@/interfaces/Indexer'
 import SourceSelector from "@/components/SourceSelector.vue";
 import Tile from "@/components/Tile.vue";
-import ActionButton from "@/components/ActionButton.vue";
-import { ref, reactive } from 'vue';
-import { firebaseLogout as logout } from "@/utils/firebase";
+import {ref, reactive} from 'vue';
+import {firebaseLogout as logout} from "@/utils/firebase";
 import {getIndexers} from "@/utils/endpoints";
 import Job from "@/interfaces/Job";
 
-const currentValue = reactive({ indexer: undefined, source: undefined });
+const currentValue = reactive({indexer: undefined, source: undefined});
 
 const indexers = ref<Indexer[]>([]);
 const jobs = ref<Job[]>([
@@ -33,13 +32,12 @@ const jobs = ref<Job[]>([
 ]);
 
 getIndexers().then(res => {
-  if(res){
+  if (res) {
     indexers.value = res;
   }
 });
 
-function startJob(title: string, sourceId: string){
-  console.log(title, sourceId);
+function startJob(title: string, sourceId: string) {
   jobs.value.push({
     id: sourceId,
     title,
@@ -47,8 +45,8 @@ function startJob(title: string, sourceId: string){
   })
 }
 
-function restartJobAtIndex(index: number){
-  console.log("Restart Job Called", `index is: ${index}`);
+function restartJobAtIndex(index: number) {
+  jobs.value[index].status = 'Running';
 }
 
 

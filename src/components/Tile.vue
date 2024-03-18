@@ -38,6 +38,7 @@ const emit = defineEmits(['restart']);
   margin-bottom: 12px;
   border-radius: 15px;
 }
+
 .right-controls {
   display: flex;
   gap: 10px;

@@ -10,7 +10,9 @@ const props = defineProps({
   buttonType: String,
   buttonAction: {
     type: Function,
-    default: () => { console.log('No action defined'); },
+    default: () => {
+      console.log('No action defined');
+    },
   },
 });
 

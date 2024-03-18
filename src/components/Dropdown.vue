@@ -1,13 +1,13 @@
 <template>
   <div class="is-flex is-justify-content-center">
     <div class="text">
-      {{label}}
+      {{ label }}
     </div>
     <b-select
       class="select-field is-info"
       @update:model-value="emit('change')" v-model="model" :items="props.items">
       <option v-for="item in items" :key="item.value" :value="item.value">
-        {{item.name}}
+        {{ item.name }}
       </option>
     </b-select>
   </div>

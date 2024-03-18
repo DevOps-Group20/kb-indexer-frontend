@@ -71,12 +71,11 @@ const currentJobTitle = computed(() => {
 })
 
 
-function startJob(){
-  if(!model.value.indexer || !model.value.source) {
+function startJob() {
+  if (!model.value.indexer || !model.value.source) {
     defaultToast('To start a Job an Indexer and a Source must be selected');
     return;
   }
-  console.log(model.value.source);
   emit('startJob', currentJobTitle.value, model.value.source);
 }
 </script>

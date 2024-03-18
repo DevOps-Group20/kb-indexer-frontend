@@ -15,14 +15,13 @@
           </div>
           <div class="spacer"></div>
           <div class="is-flex is-justify-content-center">
-            <ActionButton type="is-primary" :buttonAction="login">Login</ActionButton>
+            <b-button type="is-primary" @click="login">Log in</b-button>
           </div>
       </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import ActionButton from "@/components/ActionButton.vue";
 import {ref} from 'vue';
 import {firebaseLogin} from "@/utils/firebase";
 

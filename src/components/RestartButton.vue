@@ -2,5 +2,5 @@
   <b-button
     label="Restart Job"
     type="is-info"
-    icon-right="restart" />
+    icon-right="restart"/>
 </template>
