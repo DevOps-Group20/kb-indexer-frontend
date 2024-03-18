@@ -42,6 +42,7 @@ import { getAuth } from "firebase/auth";
 import { firebaseLogout as logout } from "@/utils/firebase";
 import axios from "axios";
 import {getBearerTokenHeader} from "@/utils/firebase";
+import {getIndexers} from "@/utils/endpoints";
 
 const currentValue = reactive({ indexer: undefined, source: undefined });
 
@@ -50,21 +51,11 @@ const currentValue = reactive({ indexer: undefined, source: undefined });
 //TODO: value in the frontend
 const indexers = ref<Indexer[]>([]);
 
-
-
-const getIndexers = async () => {
-  const user = getAuth().currentUser;
-
-  const res = await axios.get('http://localhost:8090/indexers',{
-    headers: {
-      'Authorization': await getBearerTokenHeader(),
-      'Content-Type': 'application/json',
-    }
-  })
-  console.log(res);
-}
-
-getIndexers();
+getIndexers().then(res => {
+  if(res){
+    indexers.value = res;
+  }
+});
 
 
 </script>
