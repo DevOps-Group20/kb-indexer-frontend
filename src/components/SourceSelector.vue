@@ -16,7 +16,7 @@
       />
     </div>
     <b-button
-      type="is-info"
+      type="is-success"
       icon-right="play"
       @click="startJob"
     >

@@ -4,7 +4,7 @@
       {{label}}
     </div>
     <b-select
-      class="select-field"
+      class="select-field is-info"
       @update:model-value="emit('change')" v-model="model" :items="props.items">
       <option v-for="item in items" :key="item.value" :value="item.value">
         {{item.name}}

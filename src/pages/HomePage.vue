@@ -2,32 +2,13 @@
   <div class="limit-row-width">
     <source-selector :indexers="indexers" v-model=currentValue />
     <tile
-        title="TILE 1"
-        status="Ready"
-        @toggle="console.log('toggle1')"
-    />
-    <tile
-        title="TILE 2"
-        status="Running"
-        @toggle="console.log('toggle2')"
-    />
-    <tile
-        title="TILE 3"
-        status="Completed"
-        @toggle="console.log('toggle3')"
-    />
-    <tile
-        title="TILE 4"
-        status="Failed"
-        @toggle="console.log('toggle4')"
-    />
-    <tile
-        title="TILE 5"
-        status="Completed"
-        @toggle="console.log('toggle5')"
+        v-for="(job, index) in jobs"
+        :title="job.title"
+        :status="job.status"
+        @restart="restartJobAtIndex(index)"
     />
     <div class="is-flex is-justify-content-center">
-    <ActionButton type="is-primary" :buttonAction="logout">Logout</ActionButton>
+    <ActionButton type="is-danger is light" :buttonAction="logout">Log out</ActionButton>
     </div>
   </div>
 </template>
@@ -40,16 +21,27 @@ import ActionButton from "@/components/ActionButton.vue";
 import { ref, reactive } from 'vue';
 import { firebaseLogout as logout } from "@/utils/firebase";
 import {getIndexers} from "@/utils/endpoints";
+import Job from "@/interfaces/Job";
 
 const currentValue = reactive({ indexer: undefined, source: undefined });
 
 const indexers = ref<Indexer[]>([]);
+const jobs = ref<Job[]>([
+  {title: 'Job1', status: 'Running'},
+  {title: 'Job2', status: 'Failed'},
+  {title: 'Job3', status: 'Completed'}
+]);
 
 getIndexers().then(res => {
   if(res){
     indexers.value = res;
   }
 });
+
+
+function restartJobAtIndex(index: number){
+  console.log("Restart Job Called", `index is: ${index}`);
+}
 
 
 </script>

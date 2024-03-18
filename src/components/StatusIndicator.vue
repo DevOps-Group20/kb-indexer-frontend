@@ -33,11 +33,8 @@ const text = computed(() => {
 })
 
 const indicator = computed(() => {
-    if (props.status === 'Ready') {
-      return 'white';
-    }
-    if (props.status === 'Running') {
-      return 'yellow';
+   if (props.status === 'Running') {
+      return 'orange';
     }
     if (props.status === 'Completed') {
       return 'green';

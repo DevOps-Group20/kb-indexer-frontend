@@ -8,7 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Dropdown: typeof import('./src/components/Dropdown.vue')['default']
-    PlayStopButton: typeof import('./src/components/PlayStopButton.vue')['default']
+    PlayStopButton: typeof import('./src/components/RestartButton.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SourceSelector: typeof import('./src/components/SourceSelector.vue')['default']
