@@ -10,7 +10,7 @@ export const firebaseLogin = async (username: string, password: string) => {
     await signInWithEmailAndPassword(auth, username, password)
     await router.push('/');
   } catch (error) {
-    console.error(error);
+    console.log(error);
     defaultToast('Invalid Credentials');
   }
 };
