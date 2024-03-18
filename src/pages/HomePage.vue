@@ -38,17 +38,11 @@ import SourceSelector from "@/components/SourceSelector.vue";
 import Tile from "@/components/Tile.vue";
 import ActionButton from "@/components/ActionButton.vue";
 import { ref, reactive } from 'vue';
-import { getAuth } from "firebase/auth";
 import { firebaseLogout as logout } from "@/utils/firebase";
-import axios from "axios";
-import {getBearerTokenHeader} from "@/utils/firebase";
 import {getIndexers} from "@/utils/endpoints";
 
 const currentValue = reactive({ indexer: undefined, source: undefined });
 
-//TODO: update indexers.value with response from backend
-//TODO: ideally format the data the same on the backend as the frontend so we only need to set the
-//TODO: value in the frontend
 const indexers = ref<Indexer[]>([]);
 
 getIndexers().then(res => {

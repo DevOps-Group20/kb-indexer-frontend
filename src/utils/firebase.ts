@@ -1,6 +1,5 @@
 import {getAuth, signInWithEmailAndPassword, signOut} from "firebase/auth";
 import {router} from "@/router";
-import { ToastProgrammatic as Toast } from 'buefy'
 import {defaultToast} from "@/utils/toast";
 
 

@@ -1,4 +1,5 @@
 interface Source {
+  uuid: string,
   name: string,
   command: string
 }
