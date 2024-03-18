@@ -1,22 +1,25 @@
 <template>
   <div class="is-flex is-justify-content-center">
     <div class="text">
-      {{label}}
+      {{ label }}
     </div>
     <b-select
+      class="select-field is-info"
       @update:model-value="emit('change')" v-model="model" :items="props.items">
-      <option v-for="item in items" :key="item" :value="item">
-        {{item}}
+      <option v-for="item in items" :key="item.value" :value="item.value">
+        {{ item.name }}
       </option>
     </b-select>
   </div>
 </template>
 
 <script setup lang="ts">
+
+import DropdownItem from "@/interfaces/DropdownItem";
+
 interface Props {
   label: string,
-  items?: string[],
-
+  items?: DropdownItem[],
 }
 
 const props = defineProps<Props>()
@@ -31,5 +34,9 @@ const emit = defineEmits(['change']);
   font-weight: bold;
   color: #333;
   align-self: center;
+}
+
+.select-field {
+  min-width: 40%;
 }
 </style>

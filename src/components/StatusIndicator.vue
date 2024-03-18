@@ -33,19 +33,16 @@ const text = computed(() => {
 })
 
 const indicator = computed(() => {
-    if (props.status === 'Ready') {
-      return 'white';
-    }
-    if (props.status === 'Running') {
-      return 'yellow';
-    }
-    if (props.status === 'Completed') {
-      return 'green';
-    }
-    if (props.status === 'Failed') {
-      return 'red';
-    }
-    return 'unset';
+  if (props.status === 'Running') {
+    return 'orange';
+  }
+  if (props.status === 'Completed') {
+    return 'green';
+  }
+  if (props.status === 'Failed') {
+    return 'red';
+  }
+  return 'unset';
 
 })
 </script>
@@ -59,9 +56,9 @@ const indicator = computed(() => {
 }
 
 .circle-indicator {
-    width: 5px;
-    height: 5px;
-    border-radius: 12px;
-    background-color: v-bind(indicator);
+  width: 5px;
+  height: 5px;
+  border-radius: 12px;
+  background-color: v-bind(indicator);
 }
 </style>

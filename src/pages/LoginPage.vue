@@ -15,33 +15,20 @@
           </div>
           <div class="spacer"></div>
           <div class="is-flex is-justify-content-center">
-            <ActionButton type="is-primary" :buttonAction="login">Login</ActionButton>
+            <b-button type="is-primary" @click="login">Log in</b-button>
           </div>
       </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import ActionButton from "@/components/ActionButton.vue";
 import {ref} from 'vue';
-import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
-import {router} from '@/router';
+import {firebaseLogin} from "@/utils/firebase";
 
 const username = ref('');
 const password = ref('');
+const  login = () => firebaseLogin(username.value, password.value);
 
-let bearerToken;
-
-const login = async () => {
-  const auth = getAuth();
-  try {
-    await signInWithEmailAndPassword(auth, username.value, password.value)
-    console.log('signInWithEmailAndPassword successful');
-    await router.push('/');
-  } catch (error) {
-    console.error(error);
-  }
-};
 </script>
 
 <style scoped>
