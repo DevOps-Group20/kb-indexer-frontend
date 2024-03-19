@@ -19,7 +19,7 @@ import SourceSelector from "@/components/SourceSelector.vue";
 import Tile from "@/components/Tile.vue";
 import {ref, reactive} from 'vue';
 import {firebaseLogout as logout} from "@/utils/firebase";
-import {getIndexers, subscribeToEvents} from "@/utils/endpoints";
+import {getIndexers, subscribeToEvents, runIndexingPipeline} from "@/utils/endpoints";
 import Job from "@/interfaces/Job";
 
 const currentValue = reactive({indexer: undefined, source: undefined});
@@ -46,7 +46,8 @@ function startJob(title: string, sourceId: string) {
     id: sourceId,
     title,
     status: 'Running'
-  })
+  }),
+  runIndexingPipeline(sourceId);
 }
 
 function restartJobAtIndex(index: number) {

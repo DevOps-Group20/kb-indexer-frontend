@@ -2,7 +2,7 @@ import {getBearerTokenHeader} from "@/utils/firebase";
 import axios from "axios";
 import {defaultToast} from "@/utils/toast";
 
-const serverUrl = 'http://localhost:8090/'
+const serverUrl = 'http://192.168.49.2:31364/'
 const axiosInstance = axios.create({baseURL: serverUrl})
 
 const getHeaders = async (contentType?: string) => ({
@@ -29,8 +29,8 @@ export const getIndexers = async () => {
   }
 }
 
+//TODO Handle 409 and 200 responses
 export const runIndexingPipeline = async (sourceId: string) => {
-  try {
     const res = await axiosInstance.post(
       'index',
       {
@@ -38,13 +38,28 @@ export const runIndexingPipeline = async (sourceId: string) => {
       },
       await getConfigWithHeaders()
     )
-    if(res.status === 200){
-      return res.data
-    }
-    return null;
-  } catch (error) {
-    defaultToast('Failed Running the Job');
-  }
+    .then(function (response) {
+      console.log(response)
+    })
+    .catch(function (error) {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.log(error.response.data.message);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      } else if (error.request) {
+        // The request was made but no response was received
+        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+        // http.ClientRequest in node.js
+        console.log(error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', error.message);
+      }
+      console.log(error.config);
+    });
+  
 }
 
 //TODO: once its established how the data is passed to this event listener parse it and update some ref in the home page
