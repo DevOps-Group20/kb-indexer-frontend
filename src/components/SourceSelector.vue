@@ -31,7 +31,7 @@ import Indexer from '@/interfaces/Indexer'
 import Dropdown from "@/components/Dropdown.vue";
 import {computed, ComputedRef, ModelRef} from "vue";
 import {toUpperCase} from "@/utils/string";
-import {defaultToast} from "@/utils/toast";
+import {displayToast} from "@/utils/toast";
 import DropdownItem from "@/interfaces/DropdownItem";
 
 interface Props {
@@ -73,7 +73,7 @@ const currentJobTitle = computed(() => {
 
 function startJob() {
   if (!model.value.indexer || !model.value.source) {
-    defaultToast('To start a Job an Indexer and a Source must be selected');
+    displayToast('To start a Job an Indexer and a Source must be selected');
     return;
   }
   emit('startJob', currentJobTitle.value, model.value.source);

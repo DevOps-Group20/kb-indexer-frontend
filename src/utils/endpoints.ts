@@ -1,8 +1,8 @@
 import {getBearerTokenHeader} from "@/utils/firebase";
 import axios from "axios";
-import {defaultToast} from "@/utils/toast";
+import {displayToast} from "@/utils/toast";
 
-const serverUrl = 'http://192.168.49.2:31364/'
+const serverUrl = 'http://localhost:8090/'
 const axiosInstance = axios.create({baseURL: serverUrl})
 
 const getHeaders = async (contentType?: string) => ({
@@ -25,7 +25,7 @@ export const getIndexers = async () => {
     }
     return null;
   } catch (error) {
-    defaultToast('Could not get Indexers from server');
+    displayToast('Could not get Indexers from server');
   }
 }
 
@@ -59,7 +59,7 @@ export const runIndexingPipeline = async (sourceId: string) => {
       }
       console.log(error.config);
     });
-  
+
 }
 
 //TODO: once its established how the data is passed to this event listener parse it and update some ref in the home page

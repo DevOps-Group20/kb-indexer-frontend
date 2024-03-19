@@ -21,6 +21,7 @@ import {ref, reactive} from 'vue';
 import {firebaseLogout as logout} from "@/utils/firebase";
 import {getIndexers, subscribeToEvents, runIndexingPipeline} from "@/utils/endpoints";
 import Job from "@/interfaces/Job";
+import {displayToast} from "@/utils/toast";
 
 const currentValue = reactive({indexer: undefined, source: undefined});
 
@@ -41,16 +42,19 @@ subscribeToEvents();
 
 
 
-function startJob(title: string, sourceId: string) {
+async function startJob(title: string, sourceId: string) {
+  await runIndexingPipeline(sourceId);
+  displayToast(`Job "${title}" started successfully`, 'is-success', 'is-top');
   jobs.value.push({
     id: sourceId,
     title,
     status: 'Running'
-  }),
-  runIndexingPipeline(sourceId);
+  });
+
 }
 
 function restartJobAtIndex(index: number) {
+  displayToast(`Restarted "${jobs.value[index].title}" successfully`, 'is-success', 'is-top');
   jobs.value[index].status = 'Running';
 }
 

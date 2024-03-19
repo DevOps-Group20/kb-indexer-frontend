@@ -1,6 +1,6 @@
 import {getAuth, signInWithEmailAndPassword, signOut} from "firebase/auth";
 import {router} from "@/router";
-import {defaultToast} from "@/utils/toast";
+import {displayToast} from "@/utils/toast";
 
 
 export const firebaseLogin = async (username: string, password: string) => {
@@ -10,7 +10,7 @@ export const firebaseLogin = async (username: string, password: string) => {
     await router.push('/');
   } catch (error) {
     console.log(error);
-    defaultToast('Invalid Credentials');
+    displayToast('Invalid Credentials');
   }
 };
 
@@ -21,7 +21,7 @@ export const firebaseLogout = async () => {
     await router.push('/login')
   } catch (error) {
     console.error(error);
-    defaultToast('Failed to Log Out');
+    displayToast('Failed to Log Out');
   }
 };
 
