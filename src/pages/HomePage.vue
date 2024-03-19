@@ -19,7 +19,7 @@ import SourceSelector from "@/components/SourceSelector.vue";
 import Tile from "@/components/Tile.vue";
 import {ref, reactive} from 'vue';
 import {firebaseLogout as logout} from "@/utils/firebase";
-import {getIndexers} from "@/utils/endpoints";
+import {getIndexers, subscribeToEvents} from "@/utils/endpoints";
 import Job from "@/interfaces/Job";
 
 const currentValue = reactive({indexer: undefined, source: undefined});
@@ -36,6 +36,10 @@ getIndexers().then(res => {
     indexers.value = res;
   }
 });
+
+subscribeToEvents();
+
+
 
 function startJob(title: string, sourceId: string) {
   jobs.value.push({

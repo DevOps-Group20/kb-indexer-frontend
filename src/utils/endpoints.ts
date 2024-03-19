@@ -2,15 +2,16 @@ import {getBearerTokenHeader} from "@/utils/firebase";
 import axios from "axios";
 import {defaultToast} from "@/utils/toast";
 
-const axiosInstance = axios.create({baseURL: 'http://localhost:8090/'})
+const serverUrl = 'http://localhost:8090/'
+const axiosInstance = axios.create({baseURL: serverUrl})
 
-const getHeaders = async () => ({
+const getHeaders = async (contentType?: string) => ({
   'Authorization': await getBearerTokenHeader(),
-  'Content-Type': 'application/json',
+  'Content-Type': contentType ?? 'application/json',
 })
 
-const getConfigWithHeaders = async () => ({
-  headers: await getHeaders()
+const getConfigWithHeaders = async (contentType?: string) => ({
+  headers: await getHeaders(contentType)
 })
 
 export const getIndexers = async () => {
@@ -28,13 +29,12 @@ export const getIndexers = async () => {
   }
 }
 
-export const runIndexingPipeline = async (indexerId: string, sourceId: string) => {
+export const runIndexingPipeline = async (sourceId: string) => {
   try {
     const res = await axiosInstance.post(
       'index',
       {
-        indexer_id: indexerId,
-        source_id: sourceId
+          pipeline_id: sourceId
       },
       await getConfigWithHeaders()
     )
@@ -46,3 +46,18 @@ export const runIndexingPipeline = async (indexerId: string, sourceId: string) =
     defaultToast('Failed Running the Job');
   }
 }
+
+//TODO: once its established how the data is passed to this event listener parse it and update some ref in the home page
+export const subscribeToEvents = async () => {
+  const subscription = new EventSource(`${serverUrl}events`);
+  subscription.addEventListener('connected', (message) => {
+    console.log(message.data);
+  });
+  subscription.addEventListener('jobStatusChanged', (message) => {
+    console.log(message.data)
+  });
+  subscription.addEventListener('error', (error) => {
+    console.error(error);
+  });
+}
+
