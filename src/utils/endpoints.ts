@@ -56,7 +56,7 @@ export const subscribeToEvents = async (jobs: Ref<Job[]>, indexers: Ref<Indexer[
   });
   subscription.addEventListener('jobStatusChanged', (message) => {
     const entry = JSON.parse(message.data);
-    jobs.value.find(job => job.id === entry.metadata.uid)
+    jobs.value.find(job => job.id === entry.metadata.labels.pipeline_id);
     console.log(entry);
   });
   subscription.addEventListener('error', (error) => {

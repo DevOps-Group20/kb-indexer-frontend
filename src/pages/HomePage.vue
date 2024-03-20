@@ -48,12 +48,18 @@ async function startJob(title: string, sourceId: string, cronString?: string) {
   const res = await runIndexingPipeline(sourceId, cronString);
   if(res){
     displayToast(res.message, 'is-success', 'is-top');
-    jobs.value.push({
-      id: sourceId,
-      title,
-      status: 'Running',
-      cronSchedule: cronString
-    });
+    const existingJob = jobs.value.find(job => job.id === sourceId);
+    if(existingJob){
+      existingJob.status = 'Running';
+    } else {
+      jobs.value.push({
+        id: sourceId,
+        title,
+        status: 'Running',
+        cronSchedule: cronString
+      });
+    }
+
   }
 
 }
