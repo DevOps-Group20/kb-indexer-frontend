@@ -9,9 +9,9 @@
       v-for="(job, index) in jobs"
       :title="job.title"
       :status="job.status"
+      :cron-schedule="job.cronSchedule"
       @restart="restartJobAtIndex(index)"
     />
-
     <div class="is-flex is-justify-content-center">
       <b-button type="is-danger is light" @click="logout">Log out</b-button>
     </div>
@@ -45,21 +45,22 @@ subscribeToEvents(jobs, indexers);
 
 async function startJob(title: string, sourceId: string, cronString?: string) {
   console.log(title, sourceId, cronString);
-  //TODO: uncomment this when the backend is ready
-  // const res = await runIndexingPipeline(sourceId, cronString);
-  // if(res){
-  //   displayToast(res.message, 'is-success', 'is-top');
-  //   jobs.value.push({
-  //     id: sourceId,
-  //     title,
-  //     status: 'Running'
-  //   });
-  // }
+  const res = await runIndexingPipeline(sourceId, cronString);
+  if(res){
+    displayToast(res.message, 'is-success', 'is-top');
+    jobs.value.push({
+      id: sourceId,
+      title,
+      status: 'Running',
+      cronSchedule: cronString
+    });
+  }
 
 }
 
-//TODO: actually implement this
-function restartJobAtIndex(index: number) {
+
+async function restartJobAtIndex(index: number) {
+  // const res = await runIndexingPipeline(jobs.value[index].id);
   displayToast(`Restarted "${jobs.value[index].title}" successfully`, 'is-success', 'is-top');
   jobs.value[index].status = 'Running';
 }

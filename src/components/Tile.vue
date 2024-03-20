@@ -4,6 +4,15 @@
       {{ props.title }}
     </div>
     <div class="right-controls">
+      <b-tooltip
+        v-if="cronSchedule"
+        multilined
+        :label="timeDescription">
+        <b-icon
+          icon="calendar-check"
+        >
+        </b-icon>
+      </b-tooltip>
       <status-indicator :status="props.status"/>
       <restart-button
         class="restart-button"
@@ -17,15 +26,20 @@
 <script setup lang="ts">
 import RestartButton from '@/components/RestartButton.vue'
 import StatusIndicator from "@/components/StatusIndicator.vue";
+import cronstrue from 'cronstrue';
+import {computed} from "vue";
 
 // Set disabled to true when waiting for server response to prevent user for spamming button
 interface Props {
   title: string
-  status: 'Running' | 'Completed' | 'Failed'
+  status: 'Running' | 'Completed' | 'Failed',
+  cronSchedule?: string //Cron
 }
 
 const props = defineProps<Props>();
 const emit = defineEmits(['restart']);
+const timeDescription = computed(() => props.cronSchedule ? cronstrue.toString(props.cronSchedule) : null)
+
 </script>
 
 <style scoped>

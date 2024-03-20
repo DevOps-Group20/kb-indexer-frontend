@@ -15,6 +15,7 @@
     "@vue-js-cron/light": "^4.0.1",
     "axios": "^1.6.8",
     "buefy": "https://github.com/buefy/buefy#buefy-next",
+    "cronstrue": "^2.48.0",
     "firebase": "^10.8.0",
     "roboto-fontface": "*",
     "vue": "^3.3.0",

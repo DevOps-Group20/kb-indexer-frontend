@@ -28,7 +28,6 @@ export const getIndexers = async () => {
   return res ? res.data : undefined;
 }
 
-//TODO Handle 409 and 200 responses
 export const runIndexingPipeline = async (sourceId: string, cronString?: string) => {
   const res = await axiosInstance.post(
     'index',
@@ -56,7 +55,9 @@ export const subscribeToEvents = async (jobs: Ref<Job[]>, indexers: Ref<Indexer[
     jobs.value = entries.map(entry => parseJob(entry, indexers));
   });
   subscription.addEventListener('jobStatusChanged', (message) => {
-    console.log(message.data)
+    const entry = JSON.parse(message.data);
+    jobs.value.find(job => job.id === entry.metadata.uid)
+    console.log(entry);
   });
   subscription.addEventListener('error', (error) => {
     console.error(error);
