@@ -12,7 +12,7 @@
       :cron-schedule="job.cronSchedule"
       @restart="restartJobAtIndex(index)"
     />
-    <div class="is-flex is-justify-content-center">
+    <div class="is-flex is-justify-content-center mt-5">
       <b-button type="is-danger is light" @click="logout">Log out</b-button>
     </div>
   </div>

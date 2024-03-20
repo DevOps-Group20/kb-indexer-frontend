@@ -20,13 +20,15 @@
         <b-checkbox v-model="isScheduled">
           Schedule
         </b-checkbox>
-        <b-button
-          type="is-success"
-          icon-right="play"
-          @click="startJob"
-        >
-          Start Job
-        </b-button>
+        <div class="start-button-wrapper">
+          <b-button
+            :type="isScheduled ? 'is-warning' : 'is-success'"
+            :icon-right="isScheduled ? 'clock' : 'play'"
+            @click="startJob"
+          >
+            {{ isScheduled ? 'Schedule' : 'Start' }} Job
+          </b-button>
+        </div>
       </div>
 
     </div>
@@ -58,7 +60,7 @@ const emit = defineEmits(['startJob']);
 const isScheduled = ref(false);
 const cron: Ref<string | undefined> = ref(undefined);
 
-watch(isScheduled, val =>  cron.value = val ? '* * * * *' : undefined);
+watch(isScheduled, val => cron.value = val ? '* * * * *' : undefined);
 
 
 const indexerItems: ComputedRef<DropdownItem[]> = computed(() => props.indexers.map(indexer => ({
@@ -114,5 +116,10 @@ function startJob() {
 
 .right-buttons {
   display: flex;
+}
+.start-button-wrapper {
+  width: 160px;
+  display: flex;
+  justify-content: right;
 }
 </style>
