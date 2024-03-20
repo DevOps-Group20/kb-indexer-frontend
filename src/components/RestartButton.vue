@@ -1,6 +1,6 @@
 <template>
   <b-button
     label="Restart Job"
-    type="is-info"
+    type="is-success"
     icon-right="restart"/>
 </template>

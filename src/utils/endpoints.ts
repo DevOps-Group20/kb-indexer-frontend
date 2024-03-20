@@ -46,20 +46,25 @@ export const runIndexingPipeline = async (sourceId: string, cronString?: string)
   return res ? res.data : undefined;
 }
 
-//TODO: once its established how the data is passed to this event listener parse it and update some ref in the home page
 export const subscribeToEvents = async (jobs: Ref<Job[]>, cronJobs: Ref<Job[]>, indexers: Ref<Indexer[]>) => {
   const subscription = new EventSource(`${serverUrl}events`);
   subscription.addEventListener('connected', (message) => {
-    const response = JSON.parse(message.data);
+    const response: {jobs: JobEntry[], cronJobs: JobEntry[]} = JSON.parse(message.data);
     console.log(response);
     jobs.value = response.jobs.map(job => parseJob(job, indexers));
     cronJobs.value = response.cronJobs.map(job => parseJob(job, indexers));
   });
   subscription.addEventListener('jobStatusChanged', message => {
     console.log('jobStatusChanged');
-    const entry = JSON.parse(message.data);
+
+    const entry: JobEntry = JSON.parse(message.data);
+    entry.pipeline_id = entry.metadata.labels.pipeline_id;
     const job = jobs.value.find(job => job.id === entry.metadata.labels.pipeline_id);
-    console.log(entry, job);
+    if(job){
+      const index = jobs.value.indexOf(job);
+      jobs.value[index] = parseJob(entry, indexers);
+    }
+
   });
   subscription.addEventListener('cronJobStatusChanged', message => {
     console.log(message.data);

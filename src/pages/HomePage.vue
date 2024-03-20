@@ -56,12 +56,19 @@ function addJob(sourceId: string, title: string, cronString?: string) {
   const existingJob = jobs.value.find(job => job.id === sourceId);
   if(existingJob){
     existingJob.status = 'Running';
-  } else {
+  } else if (cronString){
+    cronJobs.value.push({
+      id: sourceId,
+      title,
+      status: 'Schedule',
+      cronSchedule: cronString
+    })
+  }
+  else {
     jobs.value.push({
       id: sourceId,
       title,
       status: 'Running',
-      cronSchedule: cronString
     });
   }
 }

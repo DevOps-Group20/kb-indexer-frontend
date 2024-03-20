@@ -37,11 +37,12 @@ import RestartButton from '@/components/RestartButton.vue'
 import StatusIndicator from "@/components/StatusIndicator.vue";
 import cronstrue from 'cronstrue';
 import {computed} from "vue";
+import {JobStatus} from "@/interfaces/Job";
 
 // Set disabled to true when waiting for server response to prevent user for spamming button
 interface Props {
   title: string
-  status?: 'Running' | 'Completed' | 'Failed' | 'Schedule',
+  status?: JobStatus,
   cronSchedule?: string //Cron
 }
 
@@ -56,7 +57,7 @@ const timeDescription = computed(() => props.cronSchedule ? cronstrue.toString(p
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 48px;
+  padding: 0 34px;
   height: 70px;
   margin-bottom: 12px;
   border-radius: 15px;
