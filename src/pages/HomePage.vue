@@ -3,7 +3,8 @@
   <div class="job-selector">
     <source-selector v-model="sourceSelectorModel" :indexers="indexers" @start-job="startJob"/>
   </div>
-    <div v-if="jobs.length === 0" class="mx-5 notification is-warning is-light">No Active Jobs</div>
+    <span class="title is-flex mb-4">Single Jobs</span>
+    <tile v-if="!jobs.length" title="No Active Jobs"/>
     <tile
       v-else
       v-for="(job, index) in jobs"
@@ -11,6 +12,13 @@
       :status="job.status"
       :cron-schedule="job.cronSchedule"
       @restart="restartJobAtIndex(index)"
+    />
+    <span v-if="cronJobs.length" class="title is-flex mb-4">Scheduled Jobs</span>
+    <tile
+      v-for="job in cronJobs"
+      :title="job.title"
+      status="Schedule"
+      :cron-schedule="job.cronSchedule"
     />
     <div class="is-flex is-justify-content-center mt-5">
       <b-button type="is-danger is light" @click="logout">Log out</b-button>
@@ -33,6 +41,7 @@ const sourceSelectorModel = reactive({indexer: undefined, source: undefined});
 
 const indexers = ref<Indexer[]>([]);
 const jobs = ref<Job[]>([]);
+const cronJobs = ref<Job[]>([]);
 
 
 getIndexers().then(res => {
@@ -41,7 +50,7 @@ getIndexers().then(res => {
   }
 });
 
-subscribeToEvents(jobs, indexers);
+subscribeToEvents(jobs, cronJobs, indexers);
 
 function addJob(sourceId: string, title: string, cronString?: string) {
   const existingJob = jobs.value.find(job => job.id === sourceId);
@@ -68,7 +77,7 @@ async function startJob(title: string, sourceId: string, cronString?: string) {
 
 
 async function restartJobAtIndex(index: number) {
-  // const res = await runIndexingPipeline(jobs.value[index].id);
+  const res = await runIndexingPipeline(jobs.value[index].id, jobs.value[index].cronSchedule);
   displayToast(`Restarted "${jobs.value[index].title}" successfully`, 'is-success', 'is-top');
   jobs.value[index].status = 'Running';
 }

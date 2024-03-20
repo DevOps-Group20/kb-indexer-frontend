@@ -21,6 +21,7 @@
           Schedule
         </b-checkbox>
         <div class="start-button-wrapper">
+          <!-- TODO: put the isScheduled in a v-if with a transition inside. add transition to crontab -->
           <b-button
             :type="isScheduled ? 'is-warning' : 'is-success'"
             :icon-right="isScheduled ? 'clock' : 'play'"

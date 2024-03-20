@@ -1,5 +1,13 @@
 <template>
-  <div class="tile notification is-info is-light">
+  <div
+    class="tile notification is-light"
+    :class="{
+      'is-warning': status === 'Running',
+      'is-success': status === 'Completed',
+      'is-danger': status === 'Failed',
+      'is-info': status === 'Schedule'
+    }"
+  >
     <div>
       {{ props.title }}
     </div>
@@ -7,16 +15,17 @@
       <b-tooltip
         v-if="cronSchedule"
         multilined
+        type="is-success"
         :label="timeDescription">
         <b-icon
           icon="calendar-check"
         >
         </b-icon>
       </b-tooltip>
-      <status-indicator :status="props.status"/>
+      <status-indicator v-if="status && status !== 'Schedule'" :status="props.status"/>
       <restart-button
         class="restart-button"
-        v-if="status == 'Failed'"
+        v-if="status && status == 'Failed'"
         @click="emit('restart')"
       />
     </div>
@@ -32,7 +41,7 @@ import {computed} from "vue";
 // Set disabled to true when waiting for server response to prevent user for spamming button
 interface Props {
   title: string
-  status: 'Running' | 'Completed' | 'Failed',
+  status?: 'Running' | 'Completed' | 'Failed' | 'Schedule',
   cronSchedule?: string //Cron
 }
 

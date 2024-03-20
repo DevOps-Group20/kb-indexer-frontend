@@ -52,7 +52,6 @@ const indicator = computed(() => {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-right: 12px;
 }
 
 .circle-indicator {
