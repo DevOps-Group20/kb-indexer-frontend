@@ -43,25 +43,27 @@ getIndexers().then(res => {
 
 subscribeToEvents(jobs, indexers);
 
+function addJob(sourceId: string, title: string, cronString?: string) {
+  const existingJob = jobs.value.find(job => job.id === sourceId);
+  if(existingJob){
+    existingJob.status = 'Running';
+  } else {
+    jobs.value.push({
+      id: sourceId,
+      title,
+      status: 'Running',
+      cronSchedule: cronString
+    });
+  }
+}
+
 async function startJob(title: string, sourceId: string, cronString?: string) {
   console.log(title, sourceId, cronString);
   const res = await runIndexingPipeline(sourceId, cronString);
-  if(res){
+  if(res) {
     displayToast(res.message, 'is-success', 'is-top');
-    const existingJob = jobs.value.find(job => job.id === sourceId);
-    if(existingJob){
-      existingJob.status = 'Running';
-    } else {
-      jobs.value.push({
-        id: sourceId,
-        title,
-        status: 'Running',
-        cronSchedule: cronString
-      });
-    }
-
+    addJob(sourceId, title, cronString);
   }
-
 }
 
 
