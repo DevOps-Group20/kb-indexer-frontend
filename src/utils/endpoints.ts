@@ -1,8 +1,12 @@
 import {getBearerTokenHeader} from "@/utils/firebase";
 import axios from "axios";
 import {displayToast} from "@/utils/toast";
+import Job from "@/interfaces/Job";
+import {Ref} from "vue";
+import Indexer from "@/interfaces/Indexer";
+import {JobEntry, parseJob} from "@/utils/parse";
 
-const serverUrl = 'http://localhost:8090/'
+const serverUrl = 'http://98.67.208.65:8090/'
 const axiosInstance = axios.create({baseURL: serverUrl})
 
 const getHeaders = async (contentType?: string) => ({
@@ -15,58 +19,41 @@ const getConfigWithHeaders = async (contentType?: string) => ({
 })
 
 export const getIndexers = async () => {
-  try {
-    const res = await axiosInstance.get(
-      'indexers',
-      await getConfigWithHeaders()
-    )
-    if(res.status === 200){
-      return res.data
-    }
-    return null;
-  } catch (error) {
+  const res =  await axiosInstance.get(
+    'indexers',
+    await getConfigWithHeaders()
+  ).catch(function (error) {
     displayToast('Could not get Indexers from server');
-  }
+  })
+  return res ? res.data : undefined;
 }
 
 //TODO Handle 409 and 200 responses
 export const runIndexingPipeline = async (sourceId: string) => {
-    const res = await axiosInstance.post(
-      'index',
-      {
-          pipeline_id: sourceId
-      },
-      await getConfigWithHeaders()
-    )
-    .then(function (response) {
-      console.log(response)
-    })
-    .catch(function (error) {
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.log(error.response.data.message);
-        console.log(error.response.status);
-        console.log(error.response.headers);
-      } else if (error.request) {
-        // The request was made but no response was received
-        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-        // http.ClientRequest in node.js
-        console.log(error.request);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', error.message);
-      }
-      console.log(error.config);
-    });
-
+  const res = await axiosInstance.post(
+    'index',
+    {
+      pipeline_id: sourceId
+      //TODO: Add a schedule
+    },
+    await getConfigWithHeaders()
+  ).catch(function (error) {
+    if (error.response) {
+      displayToast(`Error: ${error.response.data.message}`, 'is-danger', 'is-top');
+    } else {
+      displayToast(error.message, 'is-danger', 'is-top');
+    }
+  });
+  return res ? res.data : undefined;
 }
 
 //TODO: once its established how the data is passed to this event listener parse it and update some ref in the home page
-export const subscribeToEvents = async () => {
+export const subscribeToEvents = async (jobs: Ref<Job[]>, indexers: Ref<Indexer[]>) => {
   const subscription = new EventSource(`${serverUrl}events`);
   subscription.addEventListener('connected', (message) => {
-    console.log(message.data);
+    const entries: JobEntry[] = JSON.parse(message.data);
+    console.log(entries);
+    jobs.value = entries.map(entry => parseJob(entry, indexers));
   });
   subscription.addEventListener('jobStatusChanged', (message) => {
     console.log(message.data)
@@ -74,5 +61,5 @@ export const subscribeToEvents = async () => {
   subscription.addEventListener('error', (error) => {
     console.error(error);
   });
-}
+};
 

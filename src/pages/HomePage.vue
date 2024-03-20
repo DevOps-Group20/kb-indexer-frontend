@@ -26,11 +26,7 @@ import {displayToast} from "@/utils/toast";
 const currentValue = reactive({indexer: undefined, source: undefined});
 
 const indexers = ref<Indexer[]>([]);
-const jobs = ref<Job[]>([
-  {id: '', title: 'Job1', status: 'Running'},
-  {id: '', title: 'Job2', status: 'Failed'},
-  {id: '', title: 'Job3', status: 'Completed'}
-]);
+const jobs = ref<Job[]>([]);
 
 getIndexers().then(res => {
   if (res) {
@@ -38,21 +34,22 @@ getIndexers().then(res => {
   }
 });
 
-subscribeToEvents();
-
-
+subscribeToEvents(jobs, indexers);
 
 async function startJob(title: string, sourceId: string) {
-  await runIndexingPipeline(sourceId);
-  displayToast(`Job "${title}" started successfully`, 'is-success', 'is-top');
-  jobs.value.push({
-    id: sourceId,
-    title,
-    status: 'Running'
-  });
+  const res = await runIndexingPipeline(sourceId);
+  if(res){
+    displayToast(res.message, 'is-success', 'is-top');
+    jobs.value.push({
+      id: sourceId,
+      title,
+      status: 'Running'
+    });
+  }
 
 }
 
+//TODO: actually implement this
 function restartJobAtIndex(index: number) {
   displayToast(`Restarted "${jobs.value[index].title}" successfully`, 'is-success', 'is-top');
   jobs.value[index].status = 'Running';
