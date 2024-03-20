@@ -12,6 +12,7 @@ import { router } from '@/router'
 import { createApp } from 'vue'
 import Buefy from 'buefy';
 import 'buefy/dist/buefy.css';
+import '@vue-js-cron/light/dist/light.css'
 
 
 // Your web app's Firebase configuration

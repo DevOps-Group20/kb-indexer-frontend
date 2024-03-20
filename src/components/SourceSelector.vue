@@ -1,38 +1,46 @@
 <template>
-  <div class="source-selector">
-    <div class="dropdown-wrapper">
-      <dropdown
-        class="dropdown"
-        label="Indexer"
-        v-model="model.indexer"
-        :items="indexerItems"
-        @change="onIndexerChange"
-      />
-      <dropdown
-        class="dropdown"
-        label="Sources"
-        v-model="model.source"
-        :items="sourceItems"
-      />
+  <div class="source-selector-wrapper">
+    <div class="source-selector">
+      <div class="dropdown-wrapper">
+        <dropdown
+          class="dropdown"
+          label="Indexer"
+          v-model="model.indexer"
+          :items="indexerItems"
+          @change="onIndexerChange"
+        />
+        <dropdown
+          class="dropdown"
+          label="Sources"
+          v-model="model.source"
+          :items="sourceItems"
+        />
+      </div>
+      <div class="right-buttons">
+        <b-checkbox v-model="isScheduled">
+          Schedule
+        </b-checkbox>
+        <b-button
+          type="is-success"
+          icon-right="play"
+          @click="startJob"
+        >
+          Start Job
+        </b-button>
+      </div>
+
     </div>
-    <b-button
-      type="is-success"
-      icon-right="play"
-      @click="startJob"
-    >
-      Start Job
-    </b-button>
-
-
+    <cron-light v-if="isScheduled" v-model="cron"/>
   </div>
 </template>
 <script setup lang="ts">
 import Indexer from '@/interfaces/Indexer'
 import Dropdown from "@/components/Dropdown.vue";
-import {computed, ComputedRef, ModelRef} from "vue";
+import {computed, ComputedRef, ModelRef, Ref, ref, watch} from "vue";
 import {toUpperCase} from "@/utils/string";
 import {displayToast} from "@/utils/toast";
 import DropdownItem from "@/interfaces/DropdownItem";
+import {CronLight} from "@vue-js-cron/light";
 
 interface Props {
   indexers: Indexer[]
@@ -46,6 +54,12 @@ interface Model {
 const props = defineProps<Props>();
 const model: ModelRef<Model> = defineModel({default: {indexer: undefined, source: undefined}});
 const emit = defineEmits(['startJob']);
+
+const isScheduled = ref(false);
+const cron: Ref<string | undefined> = ref(undefined);
+
+watch(isScheduled, val =>  cron.value = val ? '* * * * *' : undefined);
+
 
 const indexerItems: ComputedRef<DropdownItem[]> = computed(() => props.indexers.map(indexer => ({
   name: toUpperCase(indexer.name),
@@ -76,16 +90,20 @@ function startJob() {
     displayToast('To start a Job an Indexer and a Source must be selected');
     return;
   }
-  emit('startJob', currentJobTitle.value, model.value.source);
+  emit('startJob', currentJobTitle.value, model.value.source, cron.value);
 }
 </script>
 
 <style scoped>
+.source-selector-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
 .source-selector {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 35px;
   border-radius: 10px;
 }
 
@@ -94,4 +112,7 @@ function startJob() {
   gap: 10px;
 }
 
+.right-buttons {
+  display: flex;
+}
 </style>

@@ -22,19 +22,19 @@ export const getIndexers = async () => {
   const res =  await axiosInstance.get(
     'indexers',
     await getConfigWithHeaders()
-  ).catch(function (error) {
+  ).catch(function () {
     displayToast('Could not get Indexers from server');
   })
   return res ? res.data : undefined;
 }
 
 //TODO Handle 409 and 200 responses
-export const runIndexingPipeline = async (sourceId: string) => {
+export const runIndexingPipeline = async (sourceId: string, cronString?: string) => {
   const res = await axiosInstance.post(
     'index',
     {
-      pipeline_id: sourceId
-      //TODO: Add a schedule
+      pipeline_id: sourceId,
+      schedule: cronString
     },
     await getConfigWithHeaders()
   ).catch(function (error) {

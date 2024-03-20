@@ -1,12 +1,17 @@
 <template>
-  <div class="limit-row-width">
-    <source-selector :indexers="indexers" v-model=currentValue @start-job="startJob"/>
+  <div class="wrapper is-fullwidth">
+  <div class="job-selector">
+    <source-selector v-model="sourceSelectorModel" :indexers="indexers" @start-job="startJob"/>
+  </div>
+    <div v-if="jobs.length === 0" class="mx-5 notification is-warning is-light">No Active Jobs</div>
     <tile
+      v-else
       v-for="(job, index) in jobs"
       :title="job.title"
       :status="job.status"
       @restart="restartJobAtIndex(index)"
     />
+
     <div class="is-flex is-justify-content-center">
       <b-button type="is-danger is light" @click="logout">Log out</b-button>
     </div>
@@ -16,6 +21,7 @@
 <script setup lang="ts">
 import Indexer from '@/interfaces/Indexer'
 import SourceSelector from "@/components/SourceSelector.vue";
+import { CronLight } from '@vue-js-cron/light'
 import Tile from "@/components/Tile.vue";
 import {ref, reactive} from 'vue';
 import {firebaseLogout as logout} from "@/utils/firebase";
@@ -23,10 +29,11 @@ import {getIndexers, subscribeToEvents, runIndexingPipeline} from "@/utils/endpo
 import Job from "@/interfaces/Job";
 import {displayToast} from "@/utils/toast";
 
-const currentValue = reactive({indexer: undefined, source: undefined});
+const sourceSelectorModel = reactive({indexer: undefined, source: undefined});
 
 const indexers = ref<Indexer[]>([]);
 const jobs = ref<Job[]>([]);
+
 
 getIndexers().then(res => {
   if (res) {
@@ -36,16 +43,18 @@ getIndexers().then(res => {
 
 subscribeToEvents(jobs, indexers);
 
-async function startJob(title: string, sourceId: string) {
-  const res = await runIndexingPipeline(sourceId);
-  if(res){
-    displayToast(res.message, 'is-success', 'is-top');
-    jobs.value.push({
-      id: sourceId,
-      title,
-      status: 'Running'
-    });
-  }
+async function startJob(title: string, sourceId: string, cronString?: string) {
+  console.log(title, sourceId, cronString);
+  //TODO: uncomment this when the backend is ready
+  // const res = await runIndexingPipeline(sourceId, cronString);
+  // if(res){
+  //   displayToast(res.message, 'is-success', 'is-top');
+  //   jobs.value.push({
+  //     id: sourceId,
+  //     title,
+  //     status: 'Running'
+  //   });
+  // }
 
 }
 
@@ -59,9 +68,15 @@ function restartJobAtIndex(index: number) {
 </script>
 
 <style scoped>
-.limit-row-width {
-  width: 60%;
-  max-width: 800px;
+.wrapper {
+  max-width: 80%;
   margin: auto;
+}
+
+.job-selector {
+  margin: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 </style>
