@@ -2,7 +2,6 @@ import Job, {JobStatus} from "@/interfaces/Job";
 import Indexer from "@/interfaces/Indexer";
 import {Ref} from "vue";
 import {toUpperCase} from "@/utils/string";
-import {en} from "cronstrue/dist/i18n/locales/en";
 
 function parseTitleFromIndexersById(pipelineId: string, indexers: Indexer[]) {
   for (const indexer of indexers) {
