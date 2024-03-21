@@ -58,8 +58,8 @@ export const subscribeToEvents = async (jobs: Ref<Job[]>, cronJobs: Ref<Job[]>, 
     console.log('jobStatusChanged');
 
     const entry: JobEntry = JSON.parse(message.data);
-    entry.pipeline_id = entry.metadata.labels.pipeline_id;
-    const job = jobs.value.find(job => job.id === entry.metadata.labels.pipeline_id);
+    entry.pipeline_id = entry.metadata?.labels.pipeline_id;
+    const job = jobs.value.find(job => job.id === entry.metadata?.labels.pipeline_id);
     if(job){
       const index = jobs.value.indexOf(job);
       jobs.value[index] = parseJob(entry, indexers);

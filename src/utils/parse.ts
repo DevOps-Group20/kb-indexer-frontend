@@ -17,9 +17,10 @@ function parseTitleFromIndexersById(pipelineId: string, indexers: Indexer[]) {
 
 export interface JobEntry {
   name: string,
-  pipeline_id: string,
+  pipeline_id?: string,
   status: object,
-  schedule: string
+  schedule: string,
+  metadata?: { labels: { pipeline_id: string } }
 }
 
 export function parseJob(entry: JobEntry, indexers: Ref<Indexer[]>): Job {
@@ -34,8 +35,8 @@ export function parseJob(entry: JobEntry, indexers: Ref<Indexer[]>): Job {
     }
   }
   return {
-    id: entry.pipeline_id,
-    title: parseTitleFromIndexersById(entry.pipeline_id, indexers.value),
+    id: entry.pipeline_id!,
+    title: parseTitleFromIndexersById(entry.pipeline_id!, indexers.value),
     status,
     cronSchedule: entry.schedule
   }
