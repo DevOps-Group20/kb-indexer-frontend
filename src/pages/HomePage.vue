@@ -85,8 +85,10 @@ async function startJob(title: string, sourceId: string, cronString?: string) {
 
 async function restartJobAtIndex(index: number) {
   const res = await runIndexingPipeline(jobs.value[index].id, jobs.value[index].cronSchedule);
-  displayToast(`Restarted "${jobs.value[index].title}" successfully`, 'is-success', 'is-top');
-  jobs.value[index].status = 'Running';
+  if(res){
+    displayToast(`Restarted "${jobs.value[index].title}" successfully`, 'is-success', 'is-top');
+    jobs.value[index].status = 'Running';
+  }
 }
 
 

@@ -63,7 +63,6 @@ const cron: Ref<string | undefined> = ref(undefined);
 
 watch(isScheduled, val => cron.value = val ? '* * * * *' : undefined);
 
-
 const indexerItems: ComputedRef<DropdownItem[]> = computed(() => props.indexers.map(indexer => ({
   name: toUpperCase(indexer.name),
   value: indexer.name
