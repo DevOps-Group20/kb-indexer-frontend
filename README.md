@@ -46,7 +46,4 @@ npm run build
 Once the build process is completed, your application will be ready for deployment in a production environment.
 
 ## 📑 License
-We welcome contributions!
-
-## 📑 License
 [MIT](http://opensource.org/licenses/MIT)
